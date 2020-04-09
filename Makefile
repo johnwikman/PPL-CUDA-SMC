@@ -6,7 +6,7 @@ PARTICLESIZES=200 10000 10000000
 
 SRCDIR=PPL-SMC/Src
 NVCC=nvcc
-NVCCFLAGS=-arch=sm_61 -rdc=true lcudadevrt -std=c++11 -O3 -D GPU
+NVCCFLAGS=-arch=sm_61 -rdc=true -lcudadevrt -std=c++11 -O3 -D GPU
 
 all: airplanes
 

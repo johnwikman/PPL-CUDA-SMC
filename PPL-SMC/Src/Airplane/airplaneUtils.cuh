@@ -33,8 +33,8 @@ floating_t mapLookupApprox(floating_t* mapApprox, floating_t x) {
     int f = floor(x);
     int c = ceil(x);
     if(c >= MAP_SIZE || f < 0)
-        return 999999;
-    return (mapApprox[f] + mapApprox[c]) / 2.0;
+        return 100000.0;
+    return ALTITUDE - (mapApprox[f] + ((mapApprox[c] - mapApprox[f]) * (x - f)));
 }
 
 void initObservations(floating_t* planeX, floating_t* planeObs, floating_t* mapApprox) {

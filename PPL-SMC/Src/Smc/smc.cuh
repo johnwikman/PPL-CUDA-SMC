@@ -10,8 +10,11 @@
 
 using namespace std;
 
+#ifndef _PARTICLES_
+# error _PARTICLES_ is not defined.
+#endif
 
-const int NUM_PARTICLES = 10000;// 55000;
+const int NUM_PARTICLES = _PARTICLES_;// 55000;
 const int NUM_PARTICLES_NESTED = 50;
 
 const int NUM_THREADS_PER_BLOCK = 32;

@@ -3,6 +3,8 @@
 #include <random>
 #include <time.h>
 
+#include "../benchmark_suite.hpp"
+
 #include "../Smc/smc.cuh"
 #include "../Smc/smcImpl.cuh"
 #include "airplane.cuh"
@@ -58,28 +60,51 @@ BBLOCK(propagateAndWeight, progState_t, {
 
 STATUSFUNC({
     // Checks how many particles are close to actual airplane to check for correctness
-    int numParticlesClose = 0;
-    floating_t minX = 999999;
-    floating_t maxX = -1;
-    for (int i = 0; i < NUM_PARTICLES; i++) {
-        floating_t particleX = PSTATE.x;
-        if(abs(particleX - planeX[t]) < 10)
-            numParticlesClose++;
-        minX = min(minX, particleX);
-        maxX = max(maxX, particleX);
-    }
-
-    cout << "TimeStep " << t << ", Num particles close to target: " << 100 * static_cast<floating_t>(numParticlesClose) / NUM_PARTICLES << "%, MinX: " << minX << ", MaxX: " << maxX << endl;
+// JW: This has been commented out such that time wasted here is not included
+//     in benchmarking results.
+//    int numParticlesClose = 0;
+//    floating_t minX = 999999;
+//    floating_t maxX = -1;
+//    for (int i = 0; i < NUM_PARTICLES; i++) {
+//        floating_t particleX = PSTATE.x;
+//        if(abs(particleX - planeX[t]) < 10)
+//            numParticlesClose++;
+//        minX = min(minX, particleX);
+//        maxX = max(maxX, particleX);
+//    }
+//
+//    cout << "TimeStep " << t << ", Num particles close to target: " << 100 * static_cast<floating_t>(numParticlesClose) / NUM_PARTICLES << "%, MinX: " << minX << ", MaxX: " << maxX << endl;
 })
+
+void bm_prepare(void);
+void bm_run(void);
+void bm_cleanup(void);
 
 int main(int argc, char** argv) {
 
     initAirplane();
 
+    BENCHMARK(bm_prepare, bm_run, bm_cleanup);
+}
+
+// Benchmarking wrappers
+
+void bm_prepare(void)
+{
+    // do nothing
+}
+
+void bm_run(void)
+{
     SMCSTART(progState_t)
 
     INITBBLOCK(particleInit, progState_t)
     INITBBLOCK(propagateAndWeight, progState_t)
 
     SMCEND(progState_t)
+}
+
+void bm_cleanup(void)
+{
+    // do nothing
 }

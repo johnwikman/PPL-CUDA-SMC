@@ -44,7 +44,7 @@
             std::cout << "average_ms = " << (avg) << std::endl;                   \
             std::cout << "points = [" << (a[0] * 1000.0);                         \
             for (i = 1; i < (int) a.size(); ++i) {                                \
-                std::cout << ", " << (a[i]);                                      \
+                std::cout << ", " << (a[i] * 1000.0);                             \
                 variance += (avg - (a[i] * 1000.0)) * (avg - (a[i] * 1000.0));    \
             }                                                                     \
             std::cout << "]" << std::endl;                                        \
